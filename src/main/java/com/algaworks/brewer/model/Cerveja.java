@@ -1,18 +1,23 @@
 package com.algaworks.brewer.model;
 
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotBlank;
 
 public class Cerveja {
 	@NotBlank
 	private String sku;
-	private String name;
+	@NotBlank
+	private String nome;
+	@Size(max = 50)
+	private String descricao;
 
-	public String getName() {
-		return name;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getSku() {
@@ -21,5 +26,13 @@ public class Cerveja {
 
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 }
