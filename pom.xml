@@ -28,6 +28,7 @@
 		<log4j.version>2.7</log4j.version>
 		<jcl-over-slf4j.version>1.7.22</jcl-over-slf4j.version>
 		<hibernate.version>5.2.5.Final</hibernate.version>
+		<spring-data-jpa.version>1.10.5.RELEASE</spring-data-jpa.version>
 	</properties>
 
 	<build>
@@ -150,6 +151,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-java.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<!-- Spring Data JPA -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring-data-jpa.version}</version>
 		</dependency>
 	</dependencies>
 </project>
