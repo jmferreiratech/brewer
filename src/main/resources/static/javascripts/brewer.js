@@ -2,12 +2,14 @@ $(function() {
 	var decimal = $('.js-decimal');
 	decimal.maskMoney({
 		decimal : ',',
-		thousands : '.'
+		thousands : '.',
+		allowZero : true
 	});
 
 	var plain = $('.js-plain');
 	plain.maskMoney({
 		precision : 0,
-		thousands : '.'
+		thousands : '.',
+		allowZero : true
 	});
 });
