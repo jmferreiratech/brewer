@@ -16,12 +16,15 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.algaworks.brewer.validation.SKU;
+
 @Entity
 @Table(name = "cerveja")
 public class Cerveja {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
+	@SKU
 	@NotBlank(message = "SKU é obrigatório")
 	private String sku;
 	@NotBlank(message = "Nome é obrigatório")
