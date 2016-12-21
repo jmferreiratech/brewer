@@ -12,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -24,23 +28,46 @@ public class Cerveja {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
+
 	@SKU
 	@NotBlank(message = "SKU é obrigatório")
 	private String sku;
+
 	@NotBlank(message = "Nome é obrigatório")
 	private String nome;
-	@Size(min = 1, max = 50, message = "O tamanho da descrição deve estar entre 1 e 50")
+
+	@NotBlank(message = "Descrição é obrigatória")
+	@Size(max = 50, message = "O tamanho da descrição deve estar entre 1 e 50")
 	private String descricao;
+
+	@NotNull(message = "Valor é obrigatório")
+	@DecimalMin(value = "0.01")
+	@DecimalMax(value = "9999999.99", message = "Valor não pode ser superior a R$ 9.999.999,99")
 	private BigDecimal valor;
+
+	@NotNull(message = "Teor Alcóolico é obrigatório")
+	@DecimalMax(value = "100.00", message = "Teor Alcóolico não pode ser superior a 100%")
 	@Column(name = "teor_alcoolico")
 	private BigDecimal teorAlcoolico;
+
+	@NotNull(message = "Comissão é obrigatória")
+	@DecimalMax(value = "100.00", message = "Comissão não pode ser superior a 100%")
 	private BigDecimal comissao;
+
+	@NotNull(message = "Quantidade em estoque é obrigatória")
+	@Max(value = 9999, message = "Quantidade em estoque não pode ser superior a 9.999")
 	@Column(name = "quantidade_estoque")
 	private Integer quantidadeEstoque;
+
+	@NotNull(message = "Origem é obrigatória")
 	@Enumerated(EnumType.STRING)
 	private Origem origem;
+
+	@NotNull(message = "Sabor é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private Sabor sabor;
+
+	@NotNull(message = "Estilo é obrigatório")
 	@ManyToOne
 	@JoinColumn(name = "codigo_estilo")
 	private Estilo estilo;
