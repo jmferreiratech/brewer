@@ -15,10 +15,10 @@ public class CadastroEstiloService {
 	private Estilos estilos;
 
 	@Transactional
-	public void salvar(Estilo estilo) {
-		if(estilos.findByNomeIgnoreCase(estilo.getNome()).isPresent()) {
+	public Estilo salvar(Estilo estilo) {
+		if (estilos.findByNomeIgnoreCase(estilo.getNome()).isPresent()) {
 			throw new NomeEstiloJaCadastradoException("Nome do estilo já cadastrado");
 		}
-		estilos.save(estilo);
+		return estilos.saveAndFlush(estilo);
 	}
 }
