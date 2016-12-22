@@ -39,7 +39,7 @@ public class Cerveja {
 	private String nome;
 
 	@NotBlank(message = "Descrição é obrigatória")
-	@Size(max = 50, message = "O tamanho da descrição deve estar entre 1 e 50")
+	@Size(max = 50, message = "O tamanho da descrição deve estar entre 1 e {max}")
 	private String descricao;
 
 	@NotNull(message = "Valor é obrigatório")
@@ -48,16 +48,16 @@ public class Cerveja {
 	private BigDecimal valor;
 
 	@NotNull(message = "Teor Alcóolico é obrigatório")
-	@DecimalMax(value = "100.00", message = "Teor Alcóolico não pode ser superior a 100%")
+	@DecimalMax(value = "100.00", message = "Teor Alcóolico não pode ser superior a {value}%")
 	@Column(name = "teor_alcoolico")
 	private BigDecimal teorAlcoolico;
 
 	@NotNull(message = "Comissão é obrigatória")
-	@DecimalMax(value = "100.00", message = "Comissão não pode ser superior a 100%")
+	@DecimalMax(value = "100.00", message = "Comissão não pode ser superior a {value}%")
 	private BigDecimal comissao;
 
 	@NotNull(message = "Quantidade em estoque é obrigatória")
-	@Max(value = 9999, message = "Quantidade em estoque não pode ser superior a 9.999")
+	@Max(value = 9999, message = "Quantidade em estoque não pode ser superior a {value}")
 	@Column(name = "quantidade_estoque")
 	private Integer quantidadeEstoque;
 
