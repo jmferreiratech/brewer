@@ -1,9 +1,15 @@
+/* Utilidades */
 .bw-glyphicon-large {
 	font-size: 18px;
 }
 
+/* Componentes */
 .bw-field-action {
 	display: flex;
+}
+
+.bw-required > .control-label:after {
+	content: "*"
 }
 
 .bw-field-action__icon {
