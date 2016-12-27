@@ -107,7 +107,7 @@
 
                     <tbody>
                         <tr th:each="cerveja : ${cervejas}">
-                            <td class="text-center"><img th:src="@{/fotos/temp/{foto}(foto=${cerveja.foto})}" class="img-responsive" /></td>
+                            <td class="text-center"><img th:src="@{/fotos/thumbnail.{foto}(foto=${cerveja.fotoOuMock})}" class="img-responsive" /></td>
                             <td class="text-center" th:text="${cerveja.sku}">AA1234</td>
                             <td th:text="${cerveja.nome}">Cerveja Stella</td>
                             <td th:text="${cerveja.estilo.nome}">Lager</td>
@@ -118,6 +118,9 @@
                                 </a> <a class="btn  btn-link  btn-xs" title="Excluir">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(cervejas)}">
+                            <td colspan="7">Nenhuma cerveja encontrada</td>
                         </tr>
                     </tbody>
                 </table>
