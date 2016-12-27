@@ -3,6 +3,7 @@ package com.algaworks.brewer.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -60,7 +61,8 @@ public class CervejasController {
 		mv.addObject("estilos", estilos.findAll());
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("origens", Origem.values());
-		mv.addObject("cervejas", cervejas.filtrar(cervejaFilter, pageable));
+		Page<Cerveja> pagina = cervejas.filtrar(cervejaFilter, pageable);
+		mv.addObject("pagina", pagina);
 		return mv;
 	}
 }
