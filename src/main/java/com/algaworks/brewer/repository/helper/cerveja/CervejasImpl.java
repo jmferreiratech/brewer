@@ -38,7 +38,6 @@ public class CervejasImpl implements CervejasQueries {
 		criteria.setFirstResult(primeiroRegistro);
 
 		Sort sort = pageable.getSort();
-		System.out.println("sort : " + sort);
 		if (null != sort) {
 			Sort.Order order = sort.iterator().next();
 			String property = order.getProperty();
