@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/LayoutPadrao"
->
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/LayoutPadrao">
 
 <head>
 <title>Cadastro de estilo</title>
@@ -13,7 +11,19 @@
 
         <div class="page-header">
             <div class="container-fluid">
-                <h1>Cadastro de estilo</h1>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <h1>Cadastro de estilo</h1>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="aw-page-header-controls">
+                            <a class="btn  btn-default" th:href="@{/estilos}">
+                                <i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Pesquisa</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -21,7 +31,7 @@
 
             <th:block th:include="fragments/MensagemSucesso"></th:block>
 
-            <form method="POST" th:object="${estilo}"  class="form-vertical  js-form-loading">
+            <form method="POST" th:object="${estilo}" class="form-vertical  js-form-loading">
                 <th:block th:include="fragments/MensagensErroValidacao"></th:block>
 
                 <div class="row">

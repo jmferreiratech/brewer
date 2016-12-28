@@ -60,6 +60,11 @@
     vertical-align: middle;
 }
 
+/* Colunas comuns */
+.table-col-acoes {
+	width: 80px;
+}
+
 /* Colunas - Pesquisa de Cervejas */
 .table-cervejas-col-foto {
 	min-width: 50px;
@@ -88,6 +93,7 @@
 	text-align: right;
 }
 
-.table-cervejas-col-acoes {
+/* Colunas - Pesquisa de Estilos */
+.table-estilos-col-codigo {
 	width: 80px;
 }
