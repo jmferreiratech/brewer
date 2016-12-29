@@ -31,6 +31,7 @@
 		<spring-data-jpa.version>1.10.5.RELEASE</spring-data-jpa.version>
 		<jackson-core.version>2.7.5</jackson-core.version>
 		<thumbnailator.version>0.4.8</thumbnailator.version>
+		<thymeleaf-extras-data-attribute.version>2.0.1</thymeleaf-extras-data-attribute.version>
 	</properties>
 
 	<build>
@@ -159,6 +160,7 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
 			<version>${spring-data-jpa.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<!-- Jackson - JSON -->
 		<dependency>
@@ -172,6 +174,14 @@
 			<groupId>net.coobird</groupId>
 			<artifactId>thumbnailator</artifactId>
 			<version>${thumbnailator.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- Thymeleaf data extras attribute -->
+		<dependency>
+			<groupId>com.github.mxab.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-data-attribute</artifactId>
+			<version>${thymeleaf-extras-data-attribute.version}</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
