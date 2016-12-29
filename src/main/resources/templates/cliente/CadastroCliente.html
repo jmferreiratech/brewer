@@ -85,9 +85,11 @@
 
                     <div class="col-sm-4  form-group  bw-required">
                         <label for="estado" class="control-label">Estado</label>
-                        <select id="estado" class="form-control">
-                            <option>Selecione o estado</option>
+                        <select id="estilo" class="form-control">
+                            <option value="">Selecione o estado</option>
+                            <option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}">Ceará</option>
                         </select>
+
                     </div>
 
                     <div class="col-sm-4  form-group  bw-required">
