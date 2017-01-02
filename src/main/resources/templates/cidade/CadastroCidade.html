@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/LayoutPadrao}"
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:brewer="http://brewer.algaworks.com"
+    layout:decorate="~{layout/LayoutPadrao}"
 >
 
 <head>
@@ -19,18 +19,20 @@
 
         <div class="container-fluid">
 
-            <form class="form-vertical  js-form-loading">
+            <form method="POST" th:object="${cidade}" class="form-vertical  js-form-loading">
+                <brewer:message />
                 <div class="row">
                     <div class="col-sm-4  form-group  bw-required">
                         <label for="estado" class="control-label">Estado</label>
-                        <select id="estado" class="form-control" autofocus="autofocus">
-                            <option>Selecione o estado</option>
+                        <select id="estado" class="form-control" autofocus="autofocus" th:field="*{estado}">
+                            <option value="">Selecione o estado</option>
+                            <option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}">Ceará</option>
                         </select>
                     </div>
 
                     <div class="col-sm-8  form-group  bw-required">
                         <label for="nome" class="control-label">Nome</label>
-                        <input id="nome" type="text" class="form-control" />
+                        <input id="nome" type="text" class="form-control" th:field="*{nome}" />
                     </div>
                 </div>
 
