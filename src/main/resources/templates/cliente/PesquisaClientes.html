@@ -54,6 +54,7 @@
                             <th class="table-clientes-col-tipo-pessoa"><brewer:order page="${pagina}" field="tipoPessoa" text="Tipo Pessoa" /></th>
                             <th class="table-clientes-col-cpf-cnpj">CPF/CNPJ</th>
                             <th class="table-clientes-col-telefone">Telefone</th>
+                            <th class="table-clientes-col-cidade-estado">Cidade/Estado</th>
                             <th class="table-col-acoes"></th>
                         </tr>
                     </thead>
@@ -64,6 +65,7 @@
                             <td class="text-center" th:text="${cliente.tipoPessoa.descricao}">Jurídica</td>
                             <td class="text-right" th:text="${cliente.cpfOuCnpj}">72158910000108</td>
                             <td class="text-right" th:text="${cliente.telefone}">(11)91234-1234</td>
+                            <td class="text-right" th:text="${cliente.endereco.nomeCidadeSiglaEstado}">Fortaleza/CE</td>
                             <td class="text-center"><a class="btn  btn-link  btn-xs" title="Editar">
                                     <i class="glyphicon glyphicon-pencil"></i>
                                 </a> <a class="btn  btn-link  btn-xs" title="Excluir">
