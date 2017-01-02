@@ -138,9 +138,13 @@ public class Cliente implements Serializable {
 		return true;
 	}
 
+	public String getCpfOuCnpjSemFormatacao() {
+		return TipoPessoa.removerFormatacao(this.cpfOuCnpj);
+	}
+
 	@PrePersist
 	@PreUpdate
 	private void prePersistPreUpdate() {
-		this.cpfOuCnpj = this.cpfOuCnpj.replaceAll("\\.|-|/", "");
+		this.cpfOuCnpj = getCpfOuCnpjSemFormatacao();
 	}
 }
