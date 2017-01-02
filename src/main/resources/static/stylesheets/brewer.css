@@ -122,3 +122,13 @@
 	width: 140px;
 	text-align: right;
 }
+
+/* Colunas - Pesquisa de cidades */
+.table-cidades-col-nome {
+
+}
+
+.table-cidades-col-estado {
+	width: 140px;
+	text-align: right;
+}
