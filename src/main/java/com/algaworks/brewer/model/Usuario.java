@@ -117,6 +117,10 @@ public class Usuario implements Serializable {
 		this.grupos = grupos;
 	}
 
+	public boolean isNovo() {
+		return null == codigo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
