@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/usuarios/novo").hasRole("CADASTRAR_USUARIO");
 		http.authorizeRequests().anyRequest().authenticated();
 		http.formLogin().loginPage("/login").permitAll();
+		http.exceptionHandling().accessDeniedPage("/403");
 		http.csrf().disable();
 	}
 
