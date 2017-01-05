@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/LayoutPadrao}"
-    xmlns:brewer="http://brewer.algaworks.com"
+    xmlns:brewer="http://brewer.algaworks.com" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 >
 
 <head>
@@ -17,7 +17,7 @@
                         <h1>Pesquisa de cidades</h1>
                     </div>
 
-                    <div class="col-xs-2">
+                    <div class="col-xs-2" sec:authorize-url="/cidades/nova">
                         <div class="aw-page-header-controls">
                             <a class="btn  btn-default" th:href="@{/cidades/nova}">
                                 <i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Nova cidade</span>
@@ -55,7 +55,7 @@
                         <tr>
                             <th class="table-cidades-col-nome"><brewer:order page="${pagina}" field="nome" text="Nome" /></th>
                             <th class="table-cidades-col-estado"><brewer:order page="${pagina}" field="estado" text="Estado" /></th>
-                            <th class="table-col-acoes"></th>
+                            <th class="table-col-acoes" sec:authorize="hasRole('ROLE_CADASTRAR_CIDADE')"></th>
                         </tr>
                     </thead>
 
@@ -63,11 +63,13 @@
                         <tr th:each="cidade : ${pagina.conteudo}">
                             <td class="text-left" th:text="${cidade.nome}">Fortaleza</td>
                             <td class="text-right" th:text="${cidade.estado.nome}">Ceará</td>
-                            <td class="text-center"><a class="btn  btn-link  btn-xs" title="Editar">
+                            <td class="text-center" sec:authorize="hasRole('ROLE_CADASTRAR_CIDADE')">
+                                <a class="btn  btn-link  btn-xs" title="Editar">
                                     <i class="glyphicon glyphicon-pencil"></i>
                                 </a> <a class="btn  btn-link  btn-xs" title="Excluir">
                                     <i class="glyphicon glyphicon-remove"></i>
-                                </a></td>
+                                </a>
+                            </td>
                         </tr>
                         <tr th:if="${pagina.vazia}">
                             <td colspan="3">Nenhum cliente encontrado</td>
