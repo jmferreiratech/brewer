@@ -31,7 +31,7 @@
 
         <div class="container-fluid">
 
-            <form method="POST" th:object="${cidade}" class="form-vertical  js-form-loading">
+            <form method="POST" th:object="${cidade}" th:action="@{/cidades/nova}">
                 <brewer:message />
                 <div class="row">
                     <div class="col-sm-4  form-group  bw-required">

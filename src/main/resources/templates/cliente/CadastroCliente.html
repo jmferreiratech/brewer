@@ -31,7 +31,7 @@
 
         <div class="container-fluid">
 
-            <form method="POST" th:object="${cliente}">
+            <form method="POST" th:object="${cliente}" th:action="@{/clientes/novo}">
                 <brewer:message />
                 <div class="row">
                     <div class="col-sm-12  form-group  bw-required" brewer:classforerror="nome">

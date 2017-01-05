@@ -20,7 +20,7 @@
 
         <div class="container-fluid">
 
-            <form method="POST" th:object="${usuario}">
+            <form method="POST" th:object="${usuario}" th:href="@{/usuarios/novo}">
                 <brewer:message />
 
                 <div class="row">
