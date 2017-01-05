@@ -34,6 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests().antMatchers("/cidades/nova").hasRole("CADASTRAR_CIDADE");
+		http.authorizeRequests().antMatchers("/usuarios/novo").hasRole("CADASTRAR_USUARIO");
 		http.authorizeRequests().anyRequest().authenticated();
 		http.formLogin().loginPage("/login").permitAll();
 		http.csrf().disable();
