@@ -35,6 +35,7 @@
 		<guava.version>20.0</guava.version>
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>
 		<spring-security.version>4.2.1.RELEASE</spring-security.version>
+		<thymeleaf-extras-springsecurity.version>3.0.1.RELEASE</thymeleaf-extras-springsecurity.version>
 	</properties>
 
 	<build>
@@ -217,6 +218,13 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring-security.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- Thymeleaf - Extras Spring Security -->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+			<version>${thymeleaf-extras-springsecurity.version}</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
