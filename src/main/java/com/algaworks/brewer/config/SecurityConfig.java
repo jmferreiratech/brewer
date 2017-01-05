@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().loginPage("/login").permitAll();
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 		http.exceptionHandling().accessDeniedPage("/403");
+		http.sessionManagement().invalidSessionUrl("/login");
 	}
 
 	@Bean
