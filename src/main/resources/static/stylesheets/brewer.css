@@ -136,6 +136,7 @@
 /* Colunas - Pesquisa de usuarios */
 .table-usuarios-col-status {
 	width: 30px;
+	text-align: center;
 }
 
 /* Customização de Componentes */
