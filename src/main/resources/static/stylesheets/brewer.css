@@ -133,6 +133,11 @@
 	text-align: right;
 }
 
+/* Colunas - Pesquisa de usuarios */
+.table-usuarios-col-status {
+	width: 30px;
+}
+
 /* Customização de Componentes */
 .checkbox input[type="checkbox"]:checked + input + label::after {
 	font-family: 'FontAwesome';
