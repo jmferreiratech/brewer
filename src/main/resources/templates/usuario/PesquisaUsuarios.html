@@ -66,15 +66,19 @@
                         <tr>
                             <th>Nome</th>
                             <th>E-mail</th>
+                            <th>Grupo</th>
                             <th>Status</th>
                             <th class="table-col-acoes"></th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr th:each="usuario : ${pagina.conteudo}">
+                        <tr th:each="usuario : ${usuarios}">
                             <td th:text="${usuario.nome}">Francisco da silva</td>
                             <td th:text="${usuario.email}">fco@nowere.com</td>
+                            <td>
+                                <span th:each="grupo : ${usuario.grupos}" th:text="|${grupo.nome}${grupoStat.last ? '' : ', '}|"></span>
+                            </td>
                             <td th:text="${usuario.ativo} ? Ativo : Inativo">Ativo</td>
 
                             <td class="text-center"><a class="btn  btn-link  btn-xs" title="Editar">
@@ -84,15 +88,15 @@
                                 </a>
                             </td>
                         </tr>
-                        <tr th:if="${pagina.vazia}">
-                            <td colspan="5">Nenhum usuário encontrado</td>
-                        </tr>
+<!--                         <tr th:if="${pagina.vazia}"> -->
+<!--                             <td colspan="5">Nenhum usuário encontrado</td> -->
+<!--                         </tr> -->
                     </tbody>
 
                 </table>
             </div>
 
-            <brewer:pagination page="${pagina}">
+<!--             <brewer:pagination page="${pagina}"> -->
         </div>
 
     </section>

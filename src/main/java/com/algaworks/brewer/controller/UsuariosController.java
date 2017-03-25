@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.algaworks.brewer.controller.page.PageWrapper;
 import com.algaworks.brewer.model.Usuario;
 import com.algaworks.brewer.repository.Grupos;
 import com.algaworks.brewer.repository.Usuarios;
@@ -65,9 +64,7 @@ public class UsuariosController {
 	public ModelAndView pesquisar(UsuarioFilter usuarioFilter, BindingResult result,
 			@PageableDefault(size = 3) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("usuario/PesquisaUsuarios");
-		PageWrapper<Usuario> paginaWrapper = new PageWrapper<>(usuarios.filtrar(usuarioFilter, pageable),
-				httpServletRequest);
-		mv.addObject("pagina", paginaWrapper);
+		mv.addObject("usuarios", usuarios.filtrar(usuarioFilter));
 		mv.addObject("grupos", grupos.findAll());
 		return mv;
 	}
