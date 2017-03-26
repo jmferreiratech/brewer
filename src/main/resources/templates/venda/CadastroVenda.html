@@ -5,6 +5,8 @@
 
 <head>
 <title>Cadastro de Venda</title>
+<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.min.css}">
+<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.themes.min.css}">
 </head>
 
 <body>
@@ -98,7 +100,7 @@
                     <div class="tab-pane  active" id="cervejas">
                         <div class="row">
                             <div class="form-group  col-lg-12">
-                                <input type="text" class="form-control" id="cerveja" placeholder="Pesquise e adicione a cerveja pelo SKU ou nome" autofocus="autofocus" />
+                                <input type="text" class="form-control  js-sku-nome-cerveja-input" id="cerveja" placeholder="Pesquise e adicione a cerveja pelo SKU ou nome" autofocus="autofocus" />
                             </div>
                         </div>
 
@@ -151,11 +153,14 @@
         </div>
 
         <th:block th:replace="cliente/PesquisaRapidaClientes :: pesquisaRapidaClientes"></th:block>
+        <th:block th:replace="hbs/TemplateAutocompleteCerveja"></th:block>
     </section>
 
     <th:block layout:fragment="javascript-extra">
+        <script th:src="@{/javascripts/vendors/jquery.easy-autocomplete.min.js}"></script>
         <script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
         <script th:src="@{/javascripts/cliente.pesquisa-rapida.js}"></script>
+        <script th:src="@{/javascripts/venda.autocomplete-items.js}"></script>
         <script>
 			$(function() {
 				$('.js-abas-venda a').click(
