@@ -17,6 +17,7 @@ Brewer.Autocomplete = (function() {
 			getValue : 'nome',
 			minCharNumber : 3,
 			requestDelay : 300,
+			adjustWidth: false,
 			ajaxSettings : {
 				contentType : 'application/json'
 			},
