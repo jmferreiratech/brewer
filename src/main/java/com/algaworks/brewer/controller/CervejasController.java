@@ -1,5 +1,7 @@
 package com.algaworks.brewer.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -12,10 +14,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.algaworks.brewer.controller.page.PageWrapper;
+import com.algaworks.brewer.dto.CervejaDTO;
 import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.model.Origem;
 import com.algaworks.brewer.model.Sabor;
@@ -66,5 +70,10 @@ public class CervejasController {
 				httpServletRequest);
 		mv.addObject("pagina", paginaWrapper);
 		return mv;
+	}
+
+	@GetMapping("/filtro")
+	public @ResponseBody List<CervejaDTO> pesquisar(String skuOuNome) {
+		return cervejas.porSkuOuNome(skuOuNome);
 	}
 }
