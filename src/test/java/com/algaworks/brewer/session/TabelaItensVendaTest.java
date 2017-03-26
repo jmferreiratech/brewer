@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.algaworks.brewer.model.Cerveja;
-import com.algaworks.brewer.session.TabelaItensVenda;
 
 public class TabelaItensVendaTest {
 
@@ -27,22 +26,38 @@ public class TabelaItensVendaTest {
 	@Test
 	public void deveCalcularValorTotalComUmItem() throws Exception {
 		String valor = "8.90";
-		addCerveja(1, valor);
+		addCerveja(1, valor, 1L);
 
 		assertEquals(new BigDecimal(valor), tabelaItensVenda.getValorTotal());
 	}
 
 	@Test
 	public void deveCalcularValorTotalComVariosItens() throws Exception {
-		addCerveja(1, "8.90");
-		addCerveja(2, "4.99");
+		addCerveja(1, "8.90", 1L);
+		addCerveja(2, "4.99", 2L);
 
 		assertEquals(new BigDecimal("18.88"), tabelaItensVenda.getValorTotal());
-
 	}
 
-	private void addCerveja(Integer quantidade, String valor) {
+	@Test
+	public void deveManterTamanhoListaParaMesmasCervejas() throws Exception {
+		addCerveja(1, "4.50", 1L);
+		addCerveja(1, "4.50", 1L);
+
+		assertEquals(1, tabelaItensVenda.size());
+	}
+
+	@Test
+	public void deveCalcularValorTotalComMesmasCervejas() throws Exception {
+		addCerveja(1, "4.50", 1L);
+		addCerveja(1, "4.50", 1L);
+
+		assertEquals(new BigDecimal("9.00"), tabelaItensVenda.getValorTotal());
+	}
+
+	private void addCerveja(Integer quantidade, String valor, Long codigo) {
 		Cerveja cerveja = new Cerveja();
+		cerveja.setCodigo(codigo);
 		BigDecimal val = new BigDecimal(valor);
 		cerveja.setValor(val);
 		tabelaItensVenda.adicionarItem(cerveja, quantidade);
