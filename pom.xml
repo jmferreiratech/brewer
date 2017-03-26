@@ -36,6 +36,7 @@
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>
 		<spring-security.version>4.2.1.RELEASE</spring-security.version>
 		<thymeleaf-extras-springsecurity.version>3.0.1.RELEASE</thymeleaf-extras-springsecurity.version>
+		<junit.version>4.12</junit.version>
 	</properties>
 
 	<build>
@@ -226,6 +227,13 @@
 			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
 			<version>${thymeleaf-extras-springsecurity.version}</version>
 			<scope>compile</scope>
+		</dependency>
+		<!-- JUnit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
