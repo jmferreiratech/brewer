@@ -55,11 +55,25 @@ public class TabelaItensVendaTest {
 		assertEquals(new BigDecimal("9.00"), tabelaItensVenda.getValorTotal());
 	}
 
+	@Test
+	public void deveAlterarQuantidadeDoItem() throws Exception {
+		Cerveja c1 = novaCerveja("4.50", 1L);
+		tabelaItensVenda.adicionarItem(c1, 1);
+		tabelaItensVenda.alterarQuantidadeItens(c1, 3);
+
+		assertEquals(new BigDecimal("13.50"), tabelaItensVenda.getValorTotal());
+	}
+
 	private void addCerveja(Integer quantidade, String valor, Long codigo) {
+		Cerveja cerveja = novaCerveja(valor, codigo);
+		tabelaItensVenda.adicionarItem(cerveja, quantidade);
+	}
+
+	private Cerveja novaCerveja(String valor, Long codigo) {
 		Cerveja cerveja = new Cerveja();
 		cerveja.setCodigo(codigo);
 		BigDecimal val = new BigDecimal(valor);
 		cerveja.setValor(val);
-		tabelaItensVenda.adicionarItem(cerveja, quantidade);
+		return cerveja;
 	}
 }
