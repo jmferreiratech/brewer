@@ -33,6 +33,7 @@ public class TabelaItensVenda {
 			itemVenda.setCerveja(cerveja);
 			itemVenda.setQuantidade(quantidade);
 			itemVenda.setValorUnitario(cerveja.getValor());
+			itemVenda.setCodigo(cerveja.getCodigo());
 			itens.add(0, itemVenda);
 		}
 	}
@@ -40,6 +41,10 @@ public class TabelaItensVenda {
 	public void alterarQuantidadeItens(Cerveja cerveja, Integer quantidade) {
 		ItemVenda item = buscarItemPorCerveja(cerveja).get();
 		item.setQuantidade(quantidade);
+	}
+
+	public void excluirItem(Cerveja cerveja) {
+		itens.remove(buscarItemPorCerveja(cerveja).get());
 	}
 
 	public int size() {
