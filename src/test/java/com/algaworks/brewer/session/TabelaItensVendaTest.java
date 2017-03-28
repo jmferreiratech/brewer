@@ -3,6 +3,7 @@ package com.algaworks.brewer.session;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class TabelaItensVendaTest {
 
 	@Before
 	public void setUp() {
-		tabelaItensVenda = new TabelaItensVenda();
+		tabelaItensVenda = new TabelaItensVenda(UUID.randomUUID().toString());
 	}
 
 	@Test
