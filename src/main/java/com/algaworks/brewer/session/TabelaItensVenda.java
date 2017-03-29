@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.model.ItemVenda;
@@ -33,7 +34,6 @@ class TabelaItensVenda {
 			itemVenda.setCerveja(cerveja);
 			itemVenda.setQuantidade(quantidade);
 			itemVenda.setValorUnitario(cerveja.getValor());
-			itemVenda.setCodigo(cerveja.getCodigo());
 			itens.add(0, itemVenda);
 		}
 	}
@@ -44,7 +44,9 @@ class TabelaItensVenda {
 	}
 
 	public void excluirItem(Cerveja cerveja) {
-		itens.remove(buscarItemPorCerveja(cerveja).get());
+		int indice = IntStream.range(0, itens.size()).filter(i -> itens.get(i).getCerveja().equals(cerveja)).findAny()
+				.getAsInt();
+		itens.remove(indice);
 	}
 
 	public int size() {

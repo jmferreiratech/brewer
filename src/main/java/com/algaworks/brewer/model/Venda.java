@@ -2,9 +2,12 @@ package com.algaworks.brewer.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "venda")
@@ -40,12 +44,12 @@ public class Venda implements Serializable {
 	private BigDecimal valorTotal;
 
 	@Enumerated(EnumType.STRING)
-	private StatusVenda status;
+	private StatusVenda status = StatusVenda.ORCAMENTO;
 
 	private String observacao;
 
 	@Column(name = "data_entrega")
-	private LocalDateTime dataEntrega;
+	private LocalDateTime dataHoraEntrega;
 
 	@ManyToOne
 	@JoinColumn(name = "codigo_cliente")
@@ -55,8 +59,17 @@ public class Venda implements Serializable {
 	@JoinColumn(name = "codigo_usuario")
 	private Usuario usuario;
 
-	@OneToMany(mappedBy = "venda")
+	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
 	private List<ItemVenda> itens;
+
+	@Transient
+	private String uuid;
+
+	@Transient
+	private LocalDate dataEntrega;
+
+	@Transient
+	private LocalTime horaEntrega;
 
 	public Long getCodigo() {
 		return codigo;
@@ -114,12 +127,12 @@ public class Venda implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public LocalDateTime getDataEntrega() {
-		return dataEntrega;
+	public LocalDateTime getDataHoraEntrega() {
+		return dataHoraEntrega;
 	}
 
-	public void setDataEntrega(LocalDateTime dataEntrega) {
-		this.dataEntrega = dataEntrega;
+	public void setDataHoraEntrega(LocalDateTime dataEntrega) {
+		this.dataHoraEntrega = dataEntrega;
 	}
 
 	public Cliente getCliente() {
@@ -144,6 +157,39 @@ public class Venda implements Serializable {
 
 	public void setItens(List<ItemVenda> itens) {
 		this.itens = itens;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public LocalDate getDataEntrega() {
+		return dataEntrega;
+	}
+
+	public void setDataEntrega(LocalDate dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
+
+	public LocalTime getHoraEntrega() {
+		return horaEntrega;
+	}
+
+	public void setHoraEntrega(LocalTime horaEntrega) {
+		this.horaEntrega = horaEntrega;
+	}
+
+	public boolean isNova() {
+		return codigo == null;
+	}
+
+	public void adicionarItens(List<ItemVenda> itens) {
+		this.itens = itens;
+		this.itens.forEach(i -> i.setVenda(this));
 	}
 
 	@Override
