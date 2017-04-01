@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algaworks.brewer.model.StatusVenda;
 import com.algaworks.brewer.model.Venda;
 import com.algaworks.brewer.repository.Vendas;
 
@@ -27,5 +28,11 @@ public class CadastroVendaService {
 					Optional.ofNullable(venda.getHoraEntrega()).orElse(LocalTime.NOON)));
 		}
 		vendas.save(venda);
+	}
+
+	@Transactional
+	public void emitir(Venda venda) {
+		venda.setStatus(StatusVenda.EMITIDA);
+		salvar(venda);
 	}
 }
