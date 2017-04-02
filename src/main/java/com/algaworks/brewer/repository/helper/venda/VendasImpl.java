@@ -1,0 +1,79 @@
+package com.algaworks.brewer.repository.helper.venda;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import com.algaworks.brewer.model.Venda;
+import com.algaworks.brewer.repository.filter.VendaFilter;
+import com.algaworks.brewer.repository.paginacao.PaginacaoUtil;
+
+public class VendasImpl implements VendasQueries {
+
+	@PersistenceContext
+	private EntityManager manager;
+	@Autowired
+	private PaginacaoUtil paginacaoUtil;
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	@Override
+	public Page<Venda> filtrar(VendaFilter filtro, Pageable pageable) {
+		Criteria criteria = criteriaFromFilter(filtro);
+		paginacaoUtil.preparar(criteria, pageable);
+		List<Venda> vendasFiltradas = criteria.list();
+		return new PageImpl<>(vendasFiltradas, pageable, total(filtro));
+	}
+
+	private Long total(VendaFilter filtro) {
+		Criteria criteria = criteriaFromFilter(filtro);
+		criteria.setProjection(Projections.rowCount());
+		return (Long) criteria.uniqueResult();
+	}
+
+	private Criteria criteriaFromFilter(VendaFilter filtro) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Venda.class);
+		criteria.createAlias("cliente", "c");
+
+		if (null != filtro.getCodigo()) {
+			criteria.add(Restrictions.eq("codigo", filtro.getCodigo()));
+		}
+		if (null != filtro.getStatus()) {
+			criteria.add(Restrictions.eq("status", filtro.getStatus()));
+		}
+		if (null != filtro.getDataDe()) {
+			criteria.add(Restrictions.ge("dataCriacao", LocalDateTime.of(filtro.getDataDe(), LocalTime.MIN)));
+		}
+		if (null != filtro.getDataAte()) {
+			criteria.add(Restrictions.le("dataCriacao", LocalDateTime.of(filtro.getDataAte(), LocalTime.MAX)));
+		}
+		if (null != filtro.getValorDe()) {
+			criteria.add(Restrictions.ge("valorTotal", filtro.getValorDe()));
+		}
+		if (null != filtro.getValorAte()) {
+			criteria.add(Restrictions.le("valorTotal", filtro.getValorAte()));
+		}
+		if (!StringUtils.isEmpty(filtro.getNomeCliente())) {
+			criteria.add(Restrictions.ilike("c.nome", filtro.getNomeCliente(), MatchMode.ANYWHERE));
+		}
+		if (!StringUtils.isEmpty(filtro.getCpfOuCnpj())) {
+			criteria.add(Restrictions.ilike("c.cpfOuCnpj", filtro.getCpfOuCnpj(), MatchMode.ANYWHERE));
+		}
+		return criteria;
+	}
+}

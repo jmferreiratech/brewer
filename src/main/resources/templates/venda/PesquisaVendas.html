@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/LayoutPadrao}"
+    xmlns:brewer="http://brewer.algaworks.com"
+>
+
+<head>
+<title>Pesquisa de vendas</title>
+</head>
+
+<body>
+    <section layout:fragment="conteudo">
+
+        <div class="page-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-10">
+                        <h1>Pesquisa de vendas</h1>
+                    </div>
+
+                    <div class="col-xs-2">
+                        <div class="aw-page-header-controls">
+                            <a class="btn  btn-default" th:href="@{/vendas/nova}">
+                                <i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Nova venda</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <form method="GET" th:object="${vendaFilter}">
+
+                <div class="row">
+                    <div class="form-group  col-sm-6">
+                        <label class="control-label" for="codigo">Código</label>
+                        <input type="text" class="form-control" id="codigo" th:field="*{codigo}" />
+                    </div>
+
+                    <div class="form-group  col-sm-6">
+                        <label class="control-label" for="status">Status</label>
+                        <select id="status" class="form-control" th:field="*{status}">
+                            <option value="">Todos os statuses</option>
+                            <option th:each="status : ${statuses}" th:value="${status}" th:text="${status.descricao}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6  form-group">
+                        <label for="dataDe">Data de criação</label>
+                        <div class="form-inline">
+                            <input type="text" class="form-control  aw-form-control-inline-sm  js-date" id="dataDe" th:field="*{dataDe}" />
+                            <label for="dataAte" class="aw-form-label-between">até</label>
+                            <input type="text" class="form-control  aw-form-control-inline-sm  js-date" id="dataAte" th:field="*{dataAte}" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6  form-group">
+                        <label for="valorDe">Valor total</label>
+                        <div class="form-inline">
+                            <input type="text" class="form-control  aw-form-control-inline-sm  js-decimal" id="valorDe" th:field="*{valorDe}" />
+                            <label for="valorAte" class="aw-form-label-between">até</label>
+                            <input type="text" class="form-control  aw-form-control-inline-sm  js-decimal" id="valorAte" th:field="*{valorAte}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group  col-sm-6">
+                        <label class="control-label" for="nomeCliente">Nome cliente</label>
+                        <input type="text" class="form-control" id="nomeCliente" th:field="*{nomeCliente}"/>
+                    </div>
+
+                    <div class="form-group  col-sm-6">
+                        <label class="control-label" for="cpfOuCnpj">CPF/CNPJ</label>
+                        <input type="text" class="form-control" id="cpfOuCnpj" th:field="*{cpfOuCnpj}"/>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn  btn-primary">Pesquisar</button>
+            </form>
+
+            <div class="table-responsive  bw-tabela-simples">
+                <table class="table  table-hover">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>
+                                <brewer:order page="${pagina}" field="c.nome" text="Cliente" />
+                            </th>
+                            <th>Data de criação</th>
+                            <th>Valor Total</th>
+                            <th>Vendedor</th>
+                            <th>Status</th>
+                            <th class="table-col-acoes"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr th:each="venda : ${pagina.conteudo}">
+                            <td th:text="${venda.codigo}">1</td>
+                            <td th:text="${venda.cliente.nome}">Sicrano</td>
+                            <td th:text="${{venda.dataCriacao}}">01/04/2017</td>
+                            <td th:text="|R$ ${venda.valorTotal}|">R$ 9.99</td>
+                            <td th:text="${venda.usuario.nome}">Fulano de tal</td>
+                            <td th:text="${venda.status.descricao}">Orçamento</td>
+
+                            <td class="text-center">
+                                <a class="btn  btn-link  btn-xs" title="Editar">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                </a>
+                                <a class="btn  btn-link  btn-xs" title="Excluir">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${pagina.vazia}">
+                            <td colspan="7">Nenhum estilo encontrado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-sm-12  text-center" th:if="${not pagina.vazia}">
+                <nav>
+                    <ul class="pagination  pagination-sm" th:with="paginaAtual=${pagina.atual}">
+                        <li th:class="${pagina.primeira} ? disabled">
+                            <a th:href="${pagina.urlParaPagina(paginaAtual - 1)}" th:remove="${pagina.primeira} ? tag">
+                                <span>&laquo;</span>
+                            </a>
+                        </li>
+
+                        <th:block th:each="p : ${#numbers.sequence(1, pagina.total)}" th:with="numeroPagina=${p - 1}">
+                            <li th:class="${paginaAtual == numeroPagina} ? active">
+                                <a th:href="${pagina.urlParaPagina(numeroPagina)}">[[${p}]]</a>
+                            </li>
+                        </th:block>
+
+                        <li th:class="${pagina.ultima} ? disabled">
+                            <a th:href="${pagina.urlParaPagina(paginaAtual + 1)}" th:remove="${pagina.ultima} ? tag">
+                                <span>&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
