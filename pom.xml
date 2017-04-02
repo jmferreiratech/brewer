@@ -37,6 +37,7 @@
 		<spring-security.version>4.2.1.RELEASE</spring-security.version>
 		<thymeleaf-extras-springsecurity.version>3.0.1.RELEASE</thymeleaf-extras-springsecurity.version>
 		<junit.version>4.12</junit.version>
+		<javax.mail.version>1.5.6</javax.mail.version>
 	</properties>
 
 	<build>
@@ -234,6 +235,13 @@
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<!-- Java Mail -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>${javax.mail.version}</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
