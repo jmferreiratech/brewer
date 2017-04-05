@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 
 import com.algaworks.brewer.validation.SKU;
@@ -186,7 +187,7 @@ public class Cerveja implements Serializable {
 	}
 
 	public String getContentType() {
-		return contentType;
+		return StringUtils.isEmpty(contentType) ? MediaType.IMAGE_PNG_VALUE : contentType;
 	}
 
 	public void setContentType(String contentType) {

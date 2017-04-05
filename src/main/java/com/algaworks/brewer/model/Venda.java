@@ -90,7 +90,7 @@ public class Venda implements Serializable {
 	}
 
 	public BigDecimal getValorFrete() {
-		return valorFrete;
+		return Optional.ofNullable(valorFrete).orElse(BigDecimal.ZERO);
 	}
 
 	public void setValorFrete(BigDecimal valorFrete) {
@@ -98,7 +98,7 @@ public class Venda implements Serializable {
 	}
 
 	public BigDecimal getValorDesconto() {
-		return valorDesconto;
+		return Optional.ofNullable(valorDesconto).orElse(BigDecimal.ZERO);
 	}
 
 	public void setValorDesconto(BigDecimal valorDesconto) {
@@ -194,12 +194,12 @@ public class Venda implements Serializable {
 		this.itens.forEach(i -> i.setVenda(this));
 	}
 
+	public BigDecimal getValorTotalItens() {
+		return getItens().stream().map(ItemVenda::getValorTotal).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
+	}
+
 	public void calcularValorTotal() {
-		BigDecimal valorTotalItens = getItens().stream().map(ItemVenda::getValorTotal).reduce(BigDecimal::add)
-				.orElse(BigDecimal.ZERO);
-		valorTotal = valorTotalItens
-				.add(Optional.ofNullable(getValorFrete()).orElse(BigDecimal.ZERO))
-				.subtract(Optional.ofNullable(getValorDesconto()).orElse(BigDecimal.ZERO));
+		valorTotal = getValorTotalItens().add(getValorFrete()).subtract(getValorDesconto());
 	}
 
 	@Override
