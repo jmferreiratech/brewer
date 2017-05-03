@@ -3,18 +3,7 @@ package com.algaworks.brewer.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -83,6 +72,9 @@ public class Cerveja implements Serializable {
 
 	@Column(name = "content_type")
 	private String contentType;
+
+	@Transient
+    private boolean novaFoto;
 
 	@PrePersist
 	@PreUpdate
@@ -197,6 +189,18 @@ public class Cerveja implements Serializable {
 	public String getFotoOuMock() {
 		return StringUtils.isEmpty(foto) ? "cerveja-mock.png" : foto;
 	}
+
+	public boolean isNova() {
+		return null == getCodigo();
+	}
+
+    public boolean isNovaFoto() {
+        return novaFoto;
+    }
+
+    public void setNovaFoto(boolean novaFoto) {
+        this.novaFoto = novaFoto;
+    }
 
 	@Override
 	public int hashCode() {
