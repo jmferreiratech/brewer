@@ -9,12 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -48,7 +43,7 @@ public class UsuariosController {
 		return mv;
 	}
 
-	@PostMapping("/novo")
+	@PostMapping({ "/novo", "{\\+d}" })
 	public ModelAndView salvar(@Valid Usuario usuario, BindingResult result, RedirectAttributes attributes) {
 		if (result.hasErrors()) {
 			return novo(usuario);
@@ -83,5 +78,13 @@ public class UsuariosController {
 	public void atuliazarStatus(@RequestParam("codigos[]") Long[] codigos,
 			@RequestParam("status") StatusUsuario statusUsuario) {
 		cadastroUsuarioService.alterarStatus(codigos, statusUsuario);
+	}
+
+	@GetMapping("/{codigo}")
+	public ModelAndView editar(@PathVariable Long codigo) {
+		Usuario usuario = usuarios.buscarComGrupos(codigo);
+		ModelAndView mv = novo(usuario);
+		mv.addObject(usuario);
+		return mv;
 	}
 }

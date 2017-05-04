@@ -10,12 +10,8 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
+import org.hibernate.criterion.*;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -58,6 +54,16 @@ public class UsuariosImpl implements UsuariosQueries {
 		List<Usuario> usuariosFiltrados = criteria.list();
 		usuariosFiltrados.forEach(u -> Hibernate.initialize(u.getGrupos()));
 		return new PageImpl<>(usuariosFiltrados, pageable, total(filtro));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Usuario buscarComGrupos(Long codigo) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
+		criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
+		criteria.add(Restrictions.eq("codigo", codigo));
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		return (Usuario) criteria.uniqueResult();
 	}
 
 	private Long total(UsuarioFilter filtro) {
