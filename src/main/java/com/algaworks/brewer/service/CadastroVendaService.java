@@ -22,7 +22,11 @@ public class CadastroVendaService {
 	public Venda salvar(Venda venda) {
 		if (venda.isNova()) {
 			venda.setDataCriacao(LocalDateTime.now());
+		} else {
+			Venda vendaExistente = vendas.findOne(venda.getCodigo());
+			venda.setDataCriacao(vendaExistente.getDataCriacao());
 		}
+
 		if (null != venda.getDataEntrega()) {
 			venda.setDataHoraEntrega(LocalDateTime.of(venda.getDataEntrega(),
 					Optional.ofNullable(venda.getHoraEntrega()).orElse(LocalTime.NOON)));

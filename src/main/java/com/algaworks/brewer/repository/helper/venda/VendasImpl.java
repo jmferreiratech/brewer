@@ -9,9 +9,11 @@ import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -38,6 +40,17 @@ public class VendasImpl implements VendasQueries {
 		paginacaoUtil.preparar(criteria, pageable);
 		List<Venda> vendasFiltradas = criteria.list();
 		return new PageImpl<>(vendasFiltradas, pageable, total(filtro));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Venda buscarComItens(Long codigo) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Venda.class);
+		criteria.createAlias("itens", "i", JoinType.LEFT_OUTER_JOIN);
+		criteria.add(Restrictions.eq("codigo", codigo));
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		return (Venda) criteria.uniqueResult();
+
 	}
 
 	private Long total(VendaFilter filtro) {

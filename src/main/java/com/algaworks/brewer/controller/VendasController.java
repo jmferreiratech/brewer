@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.algaworks.brewer.model.ItemVenda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -60,9 +61,7 @@ public class VendasController {
 	@GetMapping("/nova")
 	public ModelAndView nova(Venda venda) {
 		ModelAndView mv = new ModelAndView("venda/CadastroVenda");
-		if (StringUtils.isEmpty(venda.getUuid())) {
-			venda.setUuid(UUID.randomUUID().toString());
-		}
+		setUuid(venda);
 		mv.addObject("itens", venda.getItens());
 		mv.addObject("valorFrete", venda.getValorFrete());
 		mv.addObject("valorDesconto", venda.getValorDesconto());
@@ -145,6 +144,25 @@ public class VendasController {
 		PageWrapper<Venda> paginaWrapper = new PageWrapper<>(vendas.filtrar(vendaFilter, pageable), httpServletRequest);
 		mv.addObject("pagina", paginaWrapper);
 		return mv;
+	}
+
+	@GetMapping("/{codigo}")
+	public ModelAndView editar(@PathVariable Long codigo) {
+		Venda venda = vendas.buscarComItens(codigo);
+		setUuid(venda);
+		for (ItemVenda item: venda.getItens()) {
+			tabelasItens.adicionarItem(venda.getUuid(), item.getCerveja(), item.getQuantidade());
+		}
+
+		ModelAndView mv = nova(venda);
+		mv.addObject(venda);
+		return mv;
+	}
+
+	private void setUuid(Venda venda) {
+		if (StringUtils.isEmpty(venda.getUuid())) {
+			venda.setUuid(UUID.randomUUID().toString());
+		}
 	}
 
 	private ModelAndView mvTabelaItensVenda(String uuid) {
