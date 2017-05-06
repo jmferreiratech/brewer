@@ -1,5 +1,7 @@
 package com.algaworks.brewer.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,6 +27,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
+@DynamicUpdate
 @Table(name = "venda")
 public class Venda implements Serializable {
 
@@ -206,6 +209,10 @@ public class Venda implements Serializable {
 	public Long getDiasCriacao() {
 		LocalDate inicio = dataCriacao != null ? dataCriacao.toLocalDate() : LocalDate.now();
 		return ChronoUnit.DAYS.between(inicio, LocalDate.now());
+	}
+
+	public boolean isSalvarPermitido() {
+		return !status.equals(StatusVenda.CANCELADA);
 	}
 
 	@Override
