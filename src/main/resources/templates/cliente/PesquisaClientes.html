@@ -66,11 +66,13 @@
                             <td class="text-right" th:text="${cliente.cpfOuCnpj}">72158910000108</td>
                             <td class="text-right" th:text="${cliente.telefone}">(11)91234-1234</td>
                             <td class="text-right" th:text="${cliente.endereco.nomeCidadeSiglaEstado}">Fortaleza/CE</td>
-                            <td class="text-center"><a class="btn  btn-link  btn-xs" title="Editar">
+                            <td class="text-center">
+                                <a class="btn  btn-link  btn-xs" title="Editar" th:href="@{/clientes/{codigo}(codigo=${cliente.codigo})}">
                                     <i class="glyphicon glyphicon-pencil"></i>
                                 </a> <a class="btn  btn-link  btn-xs" title="Excluir">
                                     <i class="glyphicon glyphicon-remove"></i>
-                                </a></td>
+                                </a>
+                            </td>
                         </tr>
                         <tr th:if="${pagina.vazia}">
                             <td colspan="5">Nenhum cliente encontrado</td>

@@ -5,6 +5,7 @@ import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -36,6 +37,17 @@ public class ClientesImpl implements ClientesQueries {
 		criteria.createAlias("endereco.cidade", "c", JoinType.LEFT_OUTER_JOIN);
 		criteria.createAlias("c.estado", "e", JoinType.LEFT_OUTER_JOIN);
 		return new PageImpl<>(criteria.list(), pageable, total(filtro));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Cliente buscarComEstadoCidade(Long codigo) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Cliente.class);
+		criteria.createAlias("endereco.cidade", "c", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("c.estado", "e", JoinType.LEFT_OUTER_JOIN);
+		criteria.add(Restrictions.eq("codigo", codigo));
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		return (Cliente) criteria.uniqueResult();
 	}
 
 	private Long total(ClienteFilter filtro) {

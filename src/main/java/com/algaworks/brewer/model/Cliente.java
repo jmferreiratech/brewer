@@ -116,6 +116,10 @@ public class Cliente implements Serializable {
 		this.endereco = endereco;
 	}
 
+	public boolean isNovo() {
+		return null == getCodigo();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
