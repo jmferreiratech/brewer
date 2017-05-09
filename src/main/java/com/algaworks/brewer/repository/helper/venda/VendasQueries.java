@@ -6,9 +6,17 @@ import org.springframework.data.domain.Pageable;
 import com.algaworks.brewer.model.Venda;
 import com.algaworks.brewer.repository.filter.VendaFilter;
 
+import java.math.BigDecimal;
+
 public interface VendasQueries {
 
 	public Page<Venda> filtrar(VendaFilter filtro, Pageable pageable);
 
-    Venda buscarComItens(Long codigo);
+    public Venda buscarComItens(Long codigo);
+
+    public BigDecimal valorTotalNoAno();
+
+    public BigDecimal valorTotalNoMes();
+
+    public BigDecimal valorTicketMedioAno();
 }
