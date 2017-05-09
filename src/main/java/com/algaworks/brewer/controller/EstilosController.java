@@ -5,6 +5,7 @@ import com.algaworks.brewer.model.Estilo;
 import com.algaworks.brewer.repository.Estilos;
 import com.algaworks.brewer.repository.filter.EstiloFilter;
 import com.algaworks.brewer.service.CadastroEstiloService;
+import com.algaworks.brewer.service.exception.ImpossivelExcluirEntidadeException;
 import com.algaworks.brewer.service.exception.NomeEstiloJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -76,5 +77,16 @@ public class EstilosController {
 		ModelAndView mv = novo(estilo);
 		mv.addObject(estilo);
 		return mv;
+	}
+
+	@DeleteMapping("/{codigo}")
+	public @ResponseBody
+	ResponseEntity<?> excluir(@PathVariable Long codigo) {
+		try {
+			cadastroEstiloService.excluir(codigo);
+		} catch (ImpossivelExcluirEntidadeException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		return ResponseEntity.ok().build();
 	}
 }
