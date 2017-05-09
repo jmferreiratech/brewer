@@ -3,10 +3,12 @@ package com.algaworks.brewer.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.algaworks.brewer.service.exception.ImpossivelExcluirEntidadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -86,5 +88,16 @@ public class UsuariosController {
 		ModelAndView mv = novo(usuario);
 		mv.addObject(usuario);
 		return mv;
+	}
+
+	@DeleteMapping("/{codigo}")
+	public @ResponseBody
+	ResponseEntity<?> excluir(@PathVariable Long codigo) {
+		try {
+			cadastroUsuarioService.excluir(codigo);
+		} catch (ImpossivelExcluirEntidadeException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		return ResponseEntity.ok().build();
 	}
 }

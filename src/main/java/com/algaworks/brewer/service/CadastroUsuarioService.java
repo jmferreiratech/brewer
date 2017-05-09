@@ -2,6 +2,7 @@ package com.algaworks.brewer.service;
 
 import java.util.Optional;
 
+import com.algaworks.brewer.service.exception.ImpossivelExcluirEntidadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,8 @@ import com.algaworks.brewer.model.Usuario;
 import com.algaworks.brewer.repository.Usuarios;
 import com.algaworks.brewer.service.exception.EmailUsuarioJaCadastradoException;
 import com.algaworks.brewer.service.exception.SenhaObrigatoriaUsuarioException;
+
+import javax.persistence.PersistenceException;
 
 @Service
 public class CadastroUsuarioService {
@@ -48,5 +51,15 @@ public class CadastroUsuarioService {
 	@Transactional
 	public void alterarStatus(Long[] codigos, StatusUsuario statusUsuario) {
 		statusUsuario.executar(codigos, usuarios);
+	}
+
+	@Transactional
+    public void excluir(Long codigo) {
+		try {
+			usuarios.delete(codigo);
+			usuarios.flush();
+		} catch (PersistenceException e) {
+			throw new ImpossivelExcluirEntidadeException("Impossível apagar usuário. Possui alguma venda.");
+		}
 	}
 }
