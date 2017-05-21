@@ -2,12 +2,15 @@ package com.algaworks.brewer.repository.helper.venda;
 
 import java.math.BigDecimal;
 import java.time.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.algaworks.brewer.dto.VendaMes;
 import com.algaworks.brewer.model.StatusVenda;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -83,6 +86,25 @@ public class VendasImpl implements VendasQueries {
 						.setParameter("status", StatusVenda.EMITIDA)
 						.getSingleResult());
 		return optional.orElse(BigDecimal.ZERO);
+	}
+
+	@Override
+	public List<VendaMes> totalPorMes() {
+		List<VendaMes> result = manager.createNamedQuery("Vendas.totalPorMes", VendaMes.class).getResultList();
+
+		List<LocalDate> months = new ArrayList<>();
+		for (int i = 0; i < 6; i++) {
+			months.add(LocalDate.now().minusMonths(i));
+		}
+		Collections.reverse(months);
+
+		months.forEach(m -> {
+			String month = String.format("%d/%02d", m.getYear(), m.getMonthValue());
+			if (result.stream().noneMatch(v -> v.getMes().equals(month))) {
+				result.add(months.indexOf(m),  new VendaMes(month, 0));
+			}
+		});
+		return result;
 	}
 
 	private Long total(VendaFilter filtro) {

@@ -1,9 +1,11 @@
 package com.algaworks.brewer.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.algaworks.brewer.dto.VendaMes;
 import com.algaworks.brewer.model.ItemVenda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -14,13 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -175,6 +171,12 @@ public class VendasController {
 		if (StringUtils.isEmpty(venda.getUuid())) {
 			venda.setUuid(UUID.randomUUID().toString());
 		}
+	}
+
+	@GetMapping("/totalPorMes")
+	public @ResponseBody
+	List<VendaMes> totalVendaPorMes() {
+		return vendas.totalPorMes();
 	}
 
 	private ModelAndView mvTabelaItensVenda(String uuid) {
