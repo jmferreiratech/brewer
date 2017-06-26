@@ -1,10 +1,9 @@
 package com.algaworks.brewer.repository.helper.cerveja;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import com.algaworks.brewer.dto.CervejaDTO;
+import com.algaworks.brewer.model.Cerveja;
+import com.algaworks.brewer.repository.filter.CervejaFilter;
+import com.algaworks.brewer.repository.paginacao.PaginacaoUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
@@ -17,10 +16,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.algaworks.brewer.dto.CervejaDTO;
-import com.algaworks.brewer.model.Cerveja;
-import com.algaworks.brewer.repository.filter.CervejaFilter;
-import com.algaworks.brewer.repository.paginacao.PaginacaoUtil;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class CervejasImpl implements CervejasQueries {
 
@@ -90,4 +89,24 @@ public class CervejasImpl implements CervejasQueries {
 				.setParameter("skuOuNome", skuOuNome + "%").getResultList();
 		return cervejasFiltradas;
 	}
+
+    @Override
+    public Long quantidadeItensEstoque() {
+        String jpql = "select SUM(quantidadeEstoque) from Cerveja";
+        Long result = manager.createQuery(jpql, Long.class).getSingleResult();
+        return result;
+    }
+
+    @Override
+    public BigDecimal valorEstoque() {
+        String jpql = "select c.quantidadeEstoque, c.valor from Cerveja c";
+        List<Object[]> result = manager.createQuery(jpql, Object[].class).getResultList();
+        BigDecimal finalValue = BigDecimal.ZERO;
+        for (Object[] numberValPair: result) {
+            BigDecimal val = (BigDecimal) numberValPair[1];
+            Integer number = (Integer) numberValPair[0];
+            finalValue = finalValue.add(val.multiply(new BigDecimal(number)));
+        }
+        return finalValue;
+    }
 }
