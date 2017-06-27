@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import com.algaworks.brewer.dto.VendaMes;
+import com.algaworks.brewer.dto.VendaOrigem;
 import com.algaworks.brewer.model.ItemVenda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -179,7 +180,13 @@ public class VendasController {
 		return vendas.totalPorMes();
 	}
 
-	private ModelAndView mvTabelaItensVenda(String uuid) {
+    @GetMapping("/totalPorOrigem")
+    public @ResponseBody
+    List<VendaOrigem> totalVendaPorOrigem() {
+        return vendas.totalPorOrigem();
+    }
+
+    private ModelAndView mvTabelaItensVenda(String uuid) {
 		ModelAndView mv = new ModelAndView("venda/TabelaItensVenda");
 		mv.addObject("itens", tabelasItens.getItens(uuid));
 		mv.addObject("valorTotal", tabelasItens.getValorTotal(uuid));

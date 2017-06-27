@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.algaworks.brewer.dto.VendaMes;
+import com.algaworks.brewer.dto.VendaOrigem;
 import com.algaworks.brewer.model.StatusVenda;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -106,6 +107,25 @@ public class VendasImpl implements VendasQueries {
 		});
 		return result;
 	}
+
+    @Override
+	public List<VendaOrigem> totalPorOrigem() {
+	    List<VendaOrigem> result = manager.createNamedQuery("Vendas.porOrigem", VendaOrigem.class).getResultList();
+
+        List<LocalDate> months = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            months.add(LocalDate.now().minusMonths(i));
+        }
+        Collections.reverse(months);
+
+        months.forEach(m -> {
+            String month = String.format("%d/%02d", m.getYear(), m.getMonthValue());
+            if (result.stream().noneMatch(v -> v.getMes().equals(month))) {
+                result.add(months.indexOf(m),  new VendaOrigem(month, 0, 0));
+            }
+        });
+        return result;
+    }
 
 	private Long total(VendaFilter filtro) {
 		Criteria criteria = criteriaFromFilter(filtro);
