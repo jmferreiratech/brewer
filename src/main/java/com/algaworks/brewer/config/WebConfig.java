@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import com.algaworks.brewer.config.format.BigDecimalFormatter;
 import org.springframework.beans.BeansException;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -105,8 +106,8 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		conversionService.addConverter(new CidadeConverter());
 		conversionService.addConverter(new EstadoConverter());
 		conversionService.addConverter(new GrupoConverter());
-		conversionService.addFormatterForFieldType(BigDecimal.class, new NumberStyleFormatter("#,##0.00"));
-		conversionService.addFormatterForFieldType(Integer.class, new NumberStyleFormatter("#,##0"));
+		conversionService.addFormatterForFieldType(BigDecimal.class, new BigDecimalFormatter("#,##0.00"));
+		conversionService.addFormatterForFieldType(Integer.class, new BigDecimalFormatter("#,##0"));
 
 		DateTimeFormatterRegistrar dateTimeFormatterRegistrar = new DateTimeFormatterRegistrar();
 		dateTimeFormatterRegistrar.setDateFormatter(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -114,11 +115,6 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		dateTimeFormatterRegistrar.registerFormatters(conversionService);
 
 		return conversionService;
-	}
-
-	@Bean
-	public LocaleResolver localeResolver() {
-		return new FixedLocaleResolver(new Locale("pt", "BR"));
 	}
 
 	@Bean
