@@ -26,13 +26,13 @@ public class Cerveja implements Serializable {
 	private Long codigo;
 
 	@SKU
-	@NotBlank(message = "SKU é obrigatório")
+	@NotBlank
 	private String sku;
 
-	@NotBlank(message = "Nome é obrigatório")
+	@NotBlank
 	private String nome;
 
-	@NotBlank(message = "Descrição é obrigatória")
+	@NotBlank
 	@Size(max = 50, message = "O tamanho da descrição deve estar entre 1 e {max}")
 	private String descricao;
 
