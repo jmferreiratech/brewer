@@ -1,23 +1,17 @@
 package com.algaworks.brewer.config.init;
 
-import javax.servlet.Filter;
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletRegistration.Dynamic;
-
+import com.algaworks.brewer.config.*;
 import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.algaworks.brewer.config.JPAConfig;
-import com.algaworks.brewer.config.MailConfig;
-import com.algaworks.brewer.config.SecurityConfig;
-import com.algaworks.brewer.config.ServiceConfig;
-import com.algaworks.brewer.config.WebConfig;
+import javax.servlet.*;
+import javax.servlet.ServletRegistration.Dynamic;
 
 public class AppInitialiazer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class<?>[] { JPAConfig.class, ServiceConfig.class, SecurityConfig.class };
+		return new Class<?>[] { JPAConfig.class, ServiceConfig.class, SecurityConfig.class, S3Config.class};
 	}
 
 	@Override
