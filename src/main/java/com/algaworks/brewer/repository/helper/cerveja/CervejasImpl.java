@@ -4,20 +4,15 @@ import com.algaworks.brewer.dto.CervejaDTO;
 import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.repository.filter.CervejaFilter;
 import com.algaworks.brewer.repository.paginacao.PaginacaoUtil;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import com.algaworks.brewer.storage.FotoStorage;
+import org.hibernate.*;
+import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -27,6 +22,8 @@ public class CervejasImpl implements CervejasQueries {
 	private EntityManager manager;
 	@Autowired
 	private PaginacaoUtil paginacaoUtil;
+	@Autowired
+	private FotoStorage fotoStorage;
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
@@ -87,6 +84,7 @@ public class CervejasImpl implements CervejasQueries {
 				+ "from Cerveja where lower(sku) like lower(:skuOuNome) or lower(nome) like lower(:skuOuNome)";
 		List<CervejaDTO> cervejasFiltradas = manager.createQuery(jpql, CervejaDTO.class)
 				.setParameter("skuOuNome", skuOuNome + "%").getResultList();
+		cervejasFiltradas.forEach(c -> c.setUrlThumbnailFoto(fotoStorage.getUrl(FotoStorage.THUMBNAIL_PREFIX + c.getFoto())));
 		return cervejasFiltradas;
 	}
 

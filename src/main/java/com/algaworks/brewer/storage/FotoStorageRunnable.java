@@ -1,9 +1,8 @@
 package com.algaworks.brewer.storage;
 
+import com.algaworks.brewer.dto.FotoDTO;
 import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.algaworks.brewer.dto.FotoDTO;
 
 public class FotoStorageRunnable implements Runnable {
 
@@ -19,8 +18,8 @@ public class FotoStorageRunnable implements Runnable {
 
 	@Override
 	public void run() {
-		String nomeFoto = this.fotoStorage.salvarTemporariamente(files);
+		String nomeFoto = this.fotoStorage.salvar(files);
 		String contentType = files[0].getContentType();
-		resultado.setResult(new FotoDTO(nomeFoto, contentType));
+		resultado.setResult(new FotoDTO(nomeFoto, contentType, fotoStorage.getUrl(nomeFoto)));
 	}
 }

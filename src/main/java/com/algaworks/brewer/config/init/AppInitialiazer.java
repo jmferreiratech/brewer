@@ -34,4 +34,10 @@ public class AppInitialiazer extends AbstractAnnotationConfigDispatcherServletIn
 	protected void customizeRegistration(Dynamic registration) {
 		registration.setMultipartConfig(new MultipartConfigElement(""));
 	}
+
+	@Override
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		super.onStartup(servletContext);
+		servletContext.setInitParameter("spring.profiles.default", "local");
+	}
 }

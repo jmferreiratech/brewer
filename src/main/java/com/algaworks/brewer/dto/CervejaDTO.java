@@ -1,10 +1,9 @@
 package com.algaworks.brewer.dto;
 
-import java.math.BigDecimal;
-
+import com.algaworks.brewer.model.Origem;
 import org.springframework.util.StringUtils;
 
-import com.algaworks.brewer.model.Origem;
+import java.math.BigDecimal;
 
 public class CervejaDTO {
 
@@ -14,6 +13,7 @@ public class CervejaDTO {
 	private String origem;
 	private BigDecimal valor;
 	private String foto;
+	private String urlThumbnailFoto;
 
 	public CervejaDTO(Long codigo, String sku, String nome, Origem origem, BigDecimal valor, String foto) {
 		this.codigo = codigo;
@@ -70,5 +70,13 @@ public class CervejaDTO {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+
+	public String getUrlThumbnailFoto() {
+		return urlThumbnailFoto;
+	}
+
+	public void setUrlThumbnailFoto(String urlThumbnailFoto) {
+		this.urlThumbnailFoto = urlThumbnailFoto;
 	}
 }

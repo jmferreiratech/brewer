@@ -1,21 +1,17 @@
 package com.algaworks.brewer.model;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
-import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
+import com.algaworks.brewer.repository.listener.CevejaEntityListener;
+import com.algaworks.brewer.validation.SKU;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 
-import com.algaworks.brewer.validation.SKU;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
+@EntityListeners(CevejaEntityListener.class)
 @Entity
 @Table(name = "cerveja")
 public class Cerveja implements Serializable {
@@ -75,6 +71,12 @@ public class Cerveja implements Serializable {
 
 	@Transient
     private boolean novaFoto;
+
+	@Transient
+	private String urlFoto;
+
+	@Transient
+	private String urlThumbnailFoto;
 
 	@PrePersist
 	@PreUpdate
@@ -201,6 +203,22 @@ public class Cerveja implements Serializable {
     public void setNovaFoto(boolean novaFoto) {
         this.novaFoto = novaFoto;
     }
+
+	public String getUrlFoto() {
+		return urlFoto;
+	}
+
+	public void setUrlFoto(String urlFoto) {
+		this.urlFoto = urlFoto;
+	}
+
+	public String getUrlThumbnailFoto() {
+		return urlThumbnailFoto;
+	}
+
+	public void setUrlThumbnailFoto(String urlThumbnailFoto) {
+		this.urlThumbnailFoto = urlThumbnailFoto;
+	}
 
 	@Override
 	public int hashCode() {
