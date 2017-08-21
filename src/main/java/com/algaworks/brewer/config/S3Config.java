@@ -19,7 +19,7 @@ public class S3Config {
         AWSCredentials credentials = new BasicAWSCredentials(env.getProperty("AWS_ACCESS_KEY_ID"), env.getProperty("AWS_SECRET_ACCESS_KEY"));
         return AmazonS3Client.builder()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withRegion(Regions.US_EAST_1)
+                .withRegion(Regions.SA_EAST_1)
                 .build();
     }
 }

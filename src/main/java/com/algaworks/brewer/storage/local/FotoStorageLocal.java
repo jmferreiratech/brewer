@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.*;
-import java.util.UUID;
 
 import static java.nio.file.FileSystems.getDefault;
 
@@ -93,13 +92,5 @@ public class FotoStorageLocal implements FotoStorage {
 			throw new RuntimeException("Erro criando pasta para salvar foto", e);
 		}
 
-	}
-
-	private String renomearArquivo(String nomeOriginal) {
-		String novoNome = UUID.randomUUID().toString() + "_" + nomeOriginal;
-		if (logger.isDebugEnabled()) {
-			logger.debug(String.format("Nome original: %s, novo nome: %s", nomeOriginal, novoNome));
-		}
-		return novoNome;
 	}
 }
