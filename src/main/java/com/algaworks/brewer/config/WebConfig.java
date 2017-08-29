@@ -1,38 +1,31 @@
 package com.algaworks.brewer.config;
 
-import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
 import com.algaworks.brewer.config.format.BigDecimalFormatter;
+import com.algaworks.brewer.controller.CervejasController;
+import com.algaworks.brewer.controller.converter.*;
+import com.algaworks.brewer.session.TabelasItensSession;
+import com.algaworks.brewer.thymeleaf.BrewerDialect;
+import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
+import com.google.common.cache.CacheBuilder;
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.guava.GuavaCacheManager;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.*;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.data.repository.support.DomainClassConverter;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
-import org.springframework.format.number.NumberStyleFormatter;
-import org.springframework.format.support.DefaultFormattingConversionService;
-import org.springframework.format.support.FormattingConversionService;
+import org.springframework.format.support.*;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.FixedLocaleResolver;
+import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.view.jasperreports.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -41,17 +34,10 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import com.algaworks.brewer.controller.CervejasController;
-import com.algaworks.brewer.controller.converter.CidadeConverter;
-import com.algaworks.brewer.controller.converter.EstadoConverter;
-import com.algaworks.brewer.controller.converter.EstiloConverter;
-import com.algaworks.brewer.controller.converter.GrupoConverter;
-import com.algaworks.brewer.session.TabelasItensSession;
-import com.algaworks.brewer.thymeleaf.BrewerDialect;
-import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
-import com.google.common.cache.CacheBuilder;
-
-import nz.net.ultraq.thymeleaf.LayoutDialect;
+import javax.sql.DataSource;
+import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @ComponentScan(basePackageClasses = { CervejasController.class, TabelasItensSession.class })
@@ -71,10 +57,23 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	}
 
 	@Bean
+	public ViewResolver jasperReportsViewResolver(DataSource dataSource) {
+		JasperReportsViewResolver resolver = new JasperReportsViewResolver();
+		resolver.setPrefix("classpath:/reports/");
+		resolver.setSuffix(".jasper");
+		resolver.setViewNames("relatorio_*");
+		resolver.setViewClass(JasperReportsMultiFormatView.class);
+		resolver.setJdbcDataSource(dataSource);
+		resolver.setOrder(0);
+		return resolver;
+	}
+
+	@Bean
 	public ViewResolver viewResolver() {
 		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
 		resolver.setTemplateEngine(templateEngine());
 		resolver.setCharacterEncoding("UTF-8");
+		resolver.setOrder(1);
 		return resolver;
 	}
 

@@ -40,6 +40,8 @@
 		<javax.mail.version>1.5.6</javax.mail.version>
 		<aws-java-sdk-s3.version>1.11.174</aws-java-sdk-s3.version>
 		<commons-dbcp2.version>2.1.1</commons-dbcp2.version>
+		<jasperreports.version>6.4.1</jasperreports.version>
+		<jasperreports-fonts.version>6.0.0</jasperreports-fonts.version>
 	</properties>
 
 	<build>
@@ -293,6 +295,16 @@
 			<artifactId>commons-dbcp2</artifactId>
 			<version>${commons-dbcp2.version}</version>
 		</dependency>
-
+		<!-- JasperReports -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasperreports.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>${jasperreports-fonts.version}</version>
+		</dependency>
 	</dependencies>
 </project>
